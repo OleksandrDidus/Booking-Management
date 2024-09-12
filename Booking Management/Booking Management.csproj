@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Data\DTO\" />
-    <Folder Include="Data\Model\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Repos\" />
     <Folder Include="Services\" />
   </ItemGroup>
