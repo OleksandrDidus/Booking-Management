@@ -4,7 +4,8 @@ namespace Booking_Management.Interfaces
 {
     public interface IBookingRepository
     {
-        Task<Booking> GetBookingByIdAsync(int id);
         Task AddBookingAsync(Booking booking);
+        Task<List<Booking>> GetBookingsBetweenDatesAsync(DateTime startDate, DateTime endDate);
     }
+
 }

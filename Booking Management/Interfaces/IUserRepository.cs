@@ -5,7 +5,7 @@ namespace Booking_Management.Interfaces
     public interface IUserRepository
     {
         Task<User> GetUserByUsernameAsync(string username);
-        Task AddUserAsync(User user);
+        Task<User> CreateUserAsync(User user);
     }
 
 }

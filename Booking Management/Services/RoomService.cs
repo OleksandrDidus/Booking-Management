@@ -12,11 +12,30 @@ namespace Booking_Management.Services
             _roomRepository = roomRepository;
         }
 
-        public Task<Room> GetRoomByIdAsync(int id) => _roomRepository.GetRoomByIdAsync(id);
-        public Task<IEnumerable<Room>> GetAllRoomsAsync() => _roomRepository.GetAllRoomsAsync();
-        public Task AddRoomAsync(Room room) => _roomRepository.AddRoomAsync(room);
-        public Task UpdateRoomAsync(Room room) => _roomRepository.UpdateRoomAsync(room);
-        public Task DeleteRoomAsync(int id) => _roomRepository.DeleteRoomAsync(id);
+        public async Task<List<ConferenceRoom>> GetAvailableRoomsAsync(DateTime date, int capacity)
+        {
+            return await _roomRepository.GetAvailableRooms(date, capacity);
+        }
+
+        public async Task<ConferenceRoom> GetRoomByIdAsync(int roomId)
+        {
+            return await _roomRepository.GetRoomByIdAsync(roomId);
+        }
+
+        public async Task AddRoomAsync(ConferenceRoom room)
+        {
+            await _roomRepository.AddRoomAsync(room);
+        }
+
+        public async Task UpdateRoomAsync(ConferenceRoom room)
+        {
+            await _roomRepository.UpdateRoomAsync(room);
+        }
+
+        public async Task DeleteRoomAsync(int roomId)
+        {
+            await _roomRepository.DeleteRoomAsync(roomId);
+        }
     }
 
 }

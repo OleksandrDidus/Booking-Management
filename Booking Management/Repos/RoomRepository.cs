@@ -2,6 +2,7 @@
 using Booking_Management.Data;
 using Booking_Management.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Booking_Management.Repos
 {
@@ -14,26 +15,38 @@ namespace Booking_Management.Repos
             _context = context;
         }
 
-        public async Task<Room> GetRoomByIdAsync(int id) => await _context.Rooms.FindAsync(id);
-        public async Task<IEnumerable<Room>> GetAllRoomsAsync() => await _context.Rooms.ToListAsync();
-        public async Task AddRoomAsync(Room room)
+        public async Task<List<ConferenceRoom>> GetAvailableRooms(DateTime date, int capacity)
         {
-            _context.Rooms.Add(room);
+            return await _context.ConferenceRooms
+                .Where(r => r.Capacity >= capacity && !_context.Bookings
+                    .Any(b => b.ConferenceRoomId == r.Id && b.StartTime.Date == date.Date))
+                .Include(r => r.Services)
+                .ToListAsync();
+        }
+
+        public async Task<ConferenceRoom> GetRoomByIdAsync(int id)
+        {
+            return await _context.ConferenceRooms.Include(r => r.Services).FirstOrDefaultAsync(r => r.Id == id);
+        }
+
+        public async Task AddRoomAsync(ConferenceRoom room)
+        {
+            await _context.ConferenceRooms.AddAsync(room);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateRoomAsync(Room room)
+        public async Task UpdateRoomAsync(ConferenceRoom room)
         {
-            _context.Rooms.Update(room);
+            _context.ConferenceRooms.Update(room);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRoomAsync(int id)
+        public async Task DeleteRoomAsync(int roomId)
         {
-            var room = await GetRoomByIdAsync(id);
+            var room = await _context.ConferenceRooms.FindAsync(roomId);
             if (room != null)
             {
-                _context.Rooms.Remove(room);
+                _context.ConferenceRooms.Remove(room);
                 await _context.SaveChangesAsync();
             }
         }
