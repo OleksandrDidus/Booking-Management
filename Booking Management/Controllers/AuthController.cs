@@ -25,6 +25,7 @@ namespace Booking_Management.Controllers
         public async Task<IActionResult> Login(string username, string password)
         {
             var token = await _authService.LoginAsync(username, password);
+            Response.Cookies.Append("jwt", token);
             return Ok(new { token });
         }
     }

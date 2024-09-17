@@ -8,6 +8,6 @@
         public decimal BasePricePerHour { get; set; }
 
         // List of services offered in the room
-        public ICollection<Service> Services { get; set; }
+        public ICollection<Service> ?Services { get; set; }
     }
 }

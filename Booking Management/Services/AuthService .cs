@@ -59,11 +59,11 @@ namespace Booking_Management.Services
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c623f0eb643f2fa9392a2a3f9f19cd6f"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Issuer"],
+                "yourIssuer",
+                "yourAudience",
                 claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds

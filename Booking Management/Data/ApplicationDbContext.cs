@@ -28,10 +28,15 @@ namespace Booking_Management.Data
             );
 
             modelBuilder.Entity<Service>().HasData(
-                new Service { Id = 1, Name = "Projector", Price = 500 },
-                new Service { Id = 2, Name = "Wi-Fi", Price = 300 },
-                new Service { Id = 3, Name = "Sound", Price = 700 }
-            );
+        new Service { Id = 1, Name = "Projector", Price = 500, ConferenceRoomId = 1 }, // Hall A
+        new Service { Id = 2, Name = "Wi-Fi", Price = 300, ConferenceRoomId = 1 }, // Hall A
+        new Service { Id = 3, Name = "Sound", Price = 700, ConferenceRoomId = 2 }  // Hall B
+    );
+            modelBuilder.Entity<Service>()
+                .HasOne(s => s.ConferenceRoom)  // A service is related to one conference room
+                .WithMany(c => c.Services)      // A conference room can have many services
+                .HasForeignKey(s => s.ConferenceRoomId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 
